@@ -1,20 +1,6 @@
 import simpleLightbox from "simplelightbox";
 // Select the gallery container
 const container = document.querySelector("gallery");
-
-// Function to create a single gallery card
-function galleryCard({images}) {
-        return images
-          .map(({ preview, original, description }) => `
-            <li class="gallery-item">
-              <a class="gallery-link" href="${original}">
-                <img class="gallery-image" src="${preview}" alt="${description}" />
-              </a>
-            </li>
-          `)
-          .join("");
-      }
-
 // Create the gallery items
 const images = [
    {
@@ -81,6 +67,19 @@ const images = [
     description: 'Lighthouse Coast Sea',
   },
 ];
+
+// Function to create a single gallery card
+function galleryCard({images}) {
+        return images
+          .map(({ preview, original, description }) => `
+            <li class="gallery-item">
+              <a class="gallery-link" href="${original}">
+                <img class="gallery-image" src="${preview}" alt="${description}" />
+              </a>
+            </li>
+          `)
+          .join("");
+      }
 
 // Add the gallery items to the DOM
 container.innerHTML = galleryCard({ images });
