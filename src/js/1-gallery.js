@@ -89,3 +89,5 @@ const lightbox = new simpleLightbox('gallery-link', {
   captionsData: 'alt',
   captionDelay: 250,
 });
+
+console.log(galleryCard);
