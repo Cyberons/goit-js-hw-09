@@ -1,4 +1,29 @@
-import { saveFormData, loadFormData, autofillForm, clearFormData } from './2-form.js';
+export function saveFormData(name, value) {
+  localStorage.setItem(name, JSON.stringify(value));
+}
+
+export function loadFormData(name) {
+  const storedValue = localStorage.getItem(name);
+
+  if (storedValue) {
+    return JSON.parse(storedValue);
+  }
+
+  return null;
+}
+
+export function autofillForm(form) {
+  const storedFormData = loadFormData('feedback-form-state');
+
+  if (storedFormData) {
+    form.querySelector('input[name="email"]').value = storedFormData.email;
+    form.querySelector('textarea[name="message"]').value = storedFormData.message;
+  }
+}
+
+export function clearFormData() {
+  localStorage.removeItem('feedback-form-state');
+}
 
 const form = document.querySelector('.feedback-form');
 
@@ -27,3 +52,13 @@ form.addEventListener('submit', (event) => {
 });
 
 autofillForm(form);
+
+
+const clearButton = document.createElement('button');
+clearButton.textContent = 'Clear form data';
+clearButton.addEventListener('click', () => {
+  clearFormData();
+  autofillForm(form);
+});
+
+form.appendChild(clearButton);
