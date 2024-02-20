@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Відстеження події input
   form.addEventListener('input', () => {
     const formState = {
-      email: emailInput.value,
-      message: messageInput.value,
+      email: emailInput.value.trim(),
+      message: messageInput.value.trim(),
     };
 
     // Збереження стану форми у локальне сховище
@@ -25,8 +25,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // Очищення сховища та полів форми під час сабміту
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    localStorage.removeItem('feedback-form-state');
-    emailInput.value = '';
-    messageInput.value = '';
+
+    if (emailInput.value.trim() && messageInput.value.trim()) {
+      const formState = {
+        email: emailInput.value.trim(),
+        message: messageInput.value.trim(),
+      };
+
+      // Вивід у консоль об'єкта з полями email, message та їхніми поточними значеннями
+      console.log(formState);
+
+      // Очищення сховища та полів форми
+      localStorage.removeItem('feedback-form-state');
+      emailInput.value = '';
+      messageInput.value = '';
+    } else {
+      console.log('Поля форми не заповнені');
+    }
   });
 });
