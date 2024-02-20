@@ -1,6 +1,7 @@
 import simpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 // Select the gallery container
-const container = document.querySelector("gallery");
+const container = document.querySelector('.gallery');
 // Create the gallery items
 const images = [
    {
@@ -69,7 +70,7 @@ const images = [
 ];
 
 // Function to create a single gallery card
-function galleryCard({images}) {
+function galleryCard(images) {
         return images
           .map(({ preview, original, description }) => `
             <li class="gallery-item">
@@ -82,12 +83,10 @@ function galleryCard({images}) {
       }
 
 // Add the gallery items to the DOM
-container.innerHTML = galleryCard({ images });
+container.innerHTML = galleryCard(images);
 
 // Initialize the lightbox after the gallery items have been added
-const lightbox = new simpleLightbox('gallery-link', {
+const lightbox = new simpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
-
-console.log(galleryCard);

@@ -1,5 +1,4 @@
 @import url('./reset.css');
-@import "simplelightbox/dist/simple-lightbox.min.css";
 .gallery {
     list-style: none;
     margin: 0;
