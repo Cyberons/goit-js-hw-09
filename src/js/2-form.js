@@ -1,64 +1,32 @@
-export function saveFormData(name, value) {
-  localStorage.setItem(name, JSON.stringify(value));
-}
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('.feedback-form');
+  const emailInput = form.querySelector('input[type="email"]');
+  const messageInput = form.querySelector('textarea');
 
-export function loadFormData(name) {
-  const storedValue = localStorage.getItem(name);
+  // Завантаження стану форми з локального сховища
+  const savedFormState = JSON.parse(localStorage.getItem('feedback-form-state')) || {};
+  emailInput.value = savedFormState.email || '';
+  messageInput.value = savedFormState.message || '';
 
-  if (storedValue) {
-    return JSON.parse(storedValue);
-  }
-
-  return null;
-}
-
-export function autofillForm(form) {
-  const storedFormData = loadFormData('feedback-form-state');
-
-  if (storedFormData) {
-    form.querySelector('input[name="email"]').value = storedFormData.email;
-    form.querySelector('textarea[name="message"]').value = storedFormData.message;
-  }
-}
-
-export function clearFormData() {
-  localStorage.removeItem('feedback-form-state');
-}
-
-const form = document.querySelector('.feedback-form');
-
-form.addEventListener('input', (event) => {
-  if (event.target.name) {
-    const formData = {
-      email: form.querySelector('input[name="email"]').value,
-      message: form.querySelector('textarea[name="message"]').value,
+  // Відстеження події input
+  form.addEventListener('input', () => {
+    const formState = {
+      email: emailInput.value,
+      message: messageInput.value,
     };
 
-    saveFormData('feedback-form-state', formData);
-  }
+    // Збереження стану форми у локальне сховище
+    localStorage.setItem('feedback-form-state', JSON.stringify(formState));
+
+    // Вивід у консоль об'єкта з полями email, message та їхніми поточними значеннями
+    console.log(formState);
+  });
+
+  // Очищення сховища та полів форми під час сабміту
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    localStorage.removeItem('feedback-form-state');
+    emailInput.value = '';
+    messageInput.value = '';
+  });
 });
-
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const formData = loadFormData('feedback-form-state');
-
-  if (formData) {
-    console.log(formData);
-  }
-
-  clearFormData();
-  autofillForm(form);
-});
-
-autofillForm(form);
-
-
-const clearButton = document.createElement('button');
-clearButton.textContent = 'Clear form data';
-clearButton.addEventListener('click', () => {
-  clearFormData();
-  autofillForm(form);
-});
-
-form.appendChild(clearButton);
